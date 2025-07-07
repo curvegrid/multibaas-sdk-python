@@ -1,0 +1,111 @@
+# To test this workflow locally using `act`, first `docker pull catthehacker/ubuntu:act-24.04` and then you can run:
+# echo '{"inputs":{"version":"1.0.0","openapi-generator-version":"latest"}}' > /tmp/test-inputs.json && act workflow_dispatch -e /tmp/test-inputs.json -j generate --secret-file example/.env --container-architecture linux/amd64 --pull=false --container-daemon-socket /var/run/docker.sock -P ubuntu-24.04=ghcr.io/catthehacker/ubuntu:act-24.04
+name: Generate SDK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The SDK version to generate as "X.Y.Z".
+        default: "X.Y.Z"
+        required: true
+        type: string
+      openapi-generator-version:
+        description: The openapi-generator version to use. '' for the version used during the last generation, 'latest' for latest, 'x.y.z' for version x.y.z.
+        default: "latest"
+        required: true
+        type: string
+
+env:
+  # Python / Node version to use in the CI
+  NODE_VER: "20"
+  PYTHON_VER: "3.11"
+
+jobs:
+  generate:
+    name: Generate SDK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENAPI_GENERATOR_VERSION: "${{ github.event.inputs.openapi-generator-version }}"
+    permissions:
+      id-token: write # Required for PyPi Trusted Publishing
+      contents: write # Required to push changes to the repository
+    steps:
+      - name: Check Tag
+        id: check-tag
+        run: |
+          if ! [[ ${{ github.event.inputs.version }} =~ ^[0-9]+\.[0-9]+\.[0-9]+(-.+)?$ ]]; then
+              echo "::error ::The provided version has incorrect format: it should match '[0-9]+\.[0-9]+\.[0-9]+(-.+)?'" 1>&2
+              exit 1
+          fi
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "${{ env.NODE_VER }}"
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "${{ env.PYTHON_VER }}"
+      - name: Generate SDK to check for changes
+        run: ./generate.sh
+      - name: Check for changes
+        run: |
+          if ! git status --porcelain=v1 | grep -v -e openapitools.json -e .openapi-generator/VERSION | tee /dev/stderr | [ $(wc -l) -ne 0 ]; then
+            echo "::error ::No changes to the Multibaas APIv0 specifications detected." 1>&2
+            exit 1
+          fi
+      - name: Generate SDK with new package version
+        run: ./generate.sh ${{ github.event.inputs.version }}
+      - name: Activate python environment
+        run: |
+          python -m venv ./env
+      - name: Build SDK package for testing
+        id: build
+        run: |
+          # Activate virtual environment
+          source env/bin/activate
+          # Install build dependencies
+          python -m pip install --upgrade pip
+          python -m pip install build
+          # Build the package
+          python -m build
+      - name: Install deps & run example tests
+        working-directory: example
+        env:
+          MB_BASE_URL: ${{ secrets.MB_BASE_URL }}
+          MB_API_KEY: ${{ secrets.MB_API_KEY }}
+        run: |
+          # Activate virtual environment
+          source ../env/bin/activate
+
+          # Install the built wheel package
+          pip install ../dist/multibaas_sdk-*.whl
+
+          # Install example dependencies
+          pip install -r requirements.txt
+
+          # Run the example script
+          python main.py
+      - name: Setup Git Configurations
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "<>"
+      - name: Push if there are changes
+        run: |
+          git add .
+          git commit -am "Auto-generated SDK v${{ github.event.inputs.version }}"
+          git tag "v${{ github.event.inputs.version }}" main
+          git push origin "v${{ github.event.inputs.version }}"
+          git push origin main
+      - name: Publish to PyPi`
+        uses: pypa/gh-action-pypi-publish@release/v1

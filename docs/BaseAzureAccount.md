@@ -1,0 +1,35 @@
+# BaseAzureAccount
+
+An Azure account.
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**label** | **str** | An alias to easily identify and reference the entity in subsequent requests. | 
+**client_id** | **str** | The Application ID that will be accessing the Key Vault. | 
+**client_secret** | **str** | The application’s secret key that you generate when you first register the application in Azure. | 
+**tenant_id** | **str** | Also known as Directory ID. | 
+**subscription_id** | **str** | The ID linked to your subscription to Azure services. | 
+**base_group_name** | **str** | The Resource Group Name for the resource being accessed. | 
+
+## Example
+
+```python
+from multibaas_sdk.models.base_azure_account import BaseAzureAccount
+
+# TODO update the JSON string below
+json = "{}"
+# create an instance of BaseAzureAccount from a JSON string
+base_azure_account_instance = BaseAzureAccount.from_json(json)
+# print the JSON string representation of the object
+print(BaseAzureAccount.to_json())
+
+# convert the object into a dict
+base_azure_account_dict = base_azure_account_instance.to_dict()
+# create an instance of BaseAzureAccount from a dict
+base_azure_account_from_dict = BaseAzureAccount.from_dict(base_azure_account_dict)
+```
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

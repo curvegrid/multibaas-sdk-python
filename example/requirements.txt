@@ -1,0 +1,2 @@
+# Example dependencies for the MultiBaas Python SDK
+python-dotenv>=1.0.0
