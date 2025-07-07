@@ -107,5 +107,5 @@ jobs:
           git tag "v${{ github.event.inputs.version }}" main
           git push origin "v${{ github.event.inputs.version }}"
           git push origin main
-      - name: Publish to PyPi`
+      - name: Publish to PyPi
         uses: pypa/gh-action-pypi-publish@release/v1
