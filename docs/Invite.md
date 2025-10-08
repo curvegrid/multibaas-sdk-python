@@ -6,9 +6,9 @@ A user invitation to MultiBaas.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | The invite ID. | 
 **email** | **str** | The invitee&#39;s email address. | 
 **created_at** | **datetime** | The time the invite was created. | 
+**expires_at** | **datetime** | The time the invite expires. | 
 
 ## Example
 

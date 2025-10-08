@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -31,6 +31,13 @@ class PlanLimit(BaseModel):
     limit: Optional[StrictInt] = Field(description="The limit value. Null means unlimited.")
     count: Optional[StrictInt] = Field(default=None, description="The current count for this limit.")
     __properties: ClassVar[List[str]] = ["name", "limit", "count"]
+
+    @field_validator('name')
+    def name_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['api_calls_per_sec', 'api_calls_per_day', 'api_calls_per_month', 'events_per_sec', 'users', 'contracts', 'linked_contracts', 'event_query_max_results', 'event_logging_retention_hours', 'past_logs_max_concurrency', 'past_logs_max_depth', 'cloud_wallets']):
+            raise ValueError("must be one of enum values ('api_calls_per_sec', 'api_calls_per_day', 'api_calls_per_month', 'events_per_sec', 'users', 'contracts', 'linked_contracts', 'event_query_max_results', 'event_logging_retention_hours', 'past_logs_max_concurrency', 'past_logs_max_depth', 'cloud_wallets')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

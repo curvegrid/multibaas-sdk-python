@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -18,14 +18,13 @@ import json
 import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
-from multibaas_sdk.models.method_call_preview_response import MethodCallPreviewResponse
 from multibaas_sdk.models.method_call_response import MethodCallResponse
 from multibaas_sdk.models.transaction_to_sign_response import TransactionToSignResponse
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-CALLCONTRACTFUNCTION200RESPONSEALLOFRESULT_ONE_OF_SCHEMAS = ["MethodCallPreviewResponse", "MethodCallResponse", "TransactionToSignResponse"]
+CALLCONTRACTFUNCTION200RESPONSEALLOFRESULT_ONE_OF_SCHEMAS = ["MethodCallResponse", "TransactionToSignResponse"]
 
 class CallContractFunction200ResponseAllOfResult(BaseModel):
     """
@@ -35,10 +34,8 @@ class CallContractFunction200ResponseAllOfResult(BaseModel):
     oneof_schema_1_validator: Optional[TransactionToSignResponse] = None
     # data type: MethodCallResponse
     oneof_schema_2_validator: Optional[MethodCallResponse] = None
-    # data type: MethodCallPreviewResponse
-    oneof_schema_3_validator: Optional[MethodCallPreviewResponse] = None
-    actual_instance: Optional[Union[MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse]] = None
-    one_of_schemas: Set[str] = { "MethodCallPreviewResponse", "MethodCallResponse", "TransactionToSignResponse" }
+    actual_instance: Optional[Union[MethodCallResponse, TransactionToSignResponse]] = None
+    one_of_schemas: Set[str] = { "MethodCallResponse", "TransactionToSignResponse" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -74,17 +71,12 @@ class CallContractFunction200ResponseAllOfResult(BaseModel):
             error_messages.append(f"Error! Input type `{type(v)}` is not `MethodCallResponse`")
         else:
             match += 1
-        # validate data type: MethodCallPreviewResponse
-        if not isinstance(v, MethodCallPreviewResponse):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `MethodCallPreviewResponse`")
-        else:
-            match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -111,19 +103,13 @@ class CallContractFunction200ResponseAllOfResult(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into MethodCallPreviewResponse
-        try:
-            instance.actual_instance = MethodCallPreviewResponse.from_json(json_str)
-            match += 1
-        except (ValidationError, ValueError) as e:
-            error_messages.append(str(e))
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into CallContractFunction200ResponseAllOfResult with oneOf schemas: MethodCallResponse, TransactionToSignResponse. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -137,7 +123,7 @@ class CallContractFunction200ResponseAllOfResult(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], MethodCallResponse, TransactionToSignResponse]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

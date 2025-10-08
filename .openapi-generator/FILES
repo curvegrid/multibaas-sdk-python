@@ -11,6 +11,7 @@ docs/AddressAlias.md
 docs/AddressesApi.md
 docs/AdminApi.md
 docs/AuditLog.md
+docs/AuthorizationExtraInfo.md
 docs/AzureAccount.md
 docs/AzureHardwareWallet.md
 docs/AzureWallet.md
@@ -36,7 +37,6 @@ docs/ContractABIErrorArgument.md
 docs/ContractABIEvent.md
 docs/ContractABIEventArgument.md
 docs/ContractABIMethod.md
-docs/ContractABIMethod1.md
 docs/ContractABIMethodArgument.md
 docs/ContractABIType.md
 docs/ContractABITypeConversion.md
@@ -126,7 +126,6 @@ docs/ListWebhookEvents200Response.md
 docs/ListWebhooks200Response.md
 docs/Log.md
 docs/MethodArg.md
-docs/MethodCallPreviewResponse.md
 docs/MethodCallResponse.md
 docs/MethodTypeConversionOptions.md
 docs/Plan.md
@@ -134,7 +133,6 @@ docs/PlanFeature.md
 docs/PlanLimit.md
 docs/PostMethodArgs.md
 docs/PostMethodResponse.md
-docs/PreviewArgs.md
 docs/Role.md
 docs/SavedEventQuery.md
 docs/SetAddress201Response.md
@@ -190,6 +188,7 @@ multibaas_sdk/models/address_alias.py
 multibaas_sdk/models/api_key.py
 multibaas_sdk/models/api_key_with_secret.py
 multibaas_sdk/models/audit_log.py
+multibaas_sdk/models/authorization_extra_info.py
 multibaas_sdk/models/azure_account.py
 multibaas_sdk/models/azure_hardware_wallet.py
 multibaas_sdk/models/azure_wallet.py
@@ -213,7 +212,6 @@ multibaas_sdk/models/contract_abi_error_argument.py
 multibaas_sdk/models/contract_abi_event.py
 multibaas_sdk/models/contract_abi_event_argument.py
 multibaas_sdk/models/contract_abi_method.py
-multibaas_sdk/models/contract_abi_method1.py
 multibaas_sdk/models/contract_abi_method_argument.py
 multibaas_sdk/models/contract_abi_type.py
 multibaas_sdk/models/contract_abi_type_conversion.py
@@ -300,7 +298,6 @@ multibaas_sdk/models/list_webhook_events200_response.py
 multibaas_sdk/models/list_webhooks200_response.py
 multibaas_sdk/models/log.py
 multibaas_sdk/models/method_arg.py
-multibaas_sdk/models/method_call_preview_response.py
 multibaas_sdk/models/method_call_response.py
 multibaas_sdk/models/method_type_conversion_options.py
 multibaas_sdk/models/plan.py
@@ -308,7 +305,6 @@ multibaas_sdk/models/plan_feature.py
 multibaas_sdk/models/plan_limit.py
 multibaas_sdk/models/post_method_args.py
 multibaas_sdk/models/post_method_response.py
-multibaas_sdk/models/preview_args.py
 multibaas_sdk/models/role.py
 multibaas_sdk/models/saved_event_query.py
 multibaas_sdk/models/set_address201_response.py

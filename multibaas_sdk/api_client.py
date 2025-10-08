@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -91,7 +91,7 @@ class ApiClient:
             self.default_headers[header_name] = header_value
         self.cookie = cookie
         # Set default User-Agent.
-        self.user_agent = 'OpenAPI-Generator/1.0.0/python'
+        self.user_agent = 'OpenAPI-Generator/1.0.1/python'
         self.client_side_validation = configuration.client_side_validation
 
     def __enter__(self):

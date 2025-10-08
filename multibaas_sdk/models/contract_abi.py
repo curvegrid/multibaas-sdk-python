@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -23,7 +23,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from multibaas_sdk.models.contract_abi_error import ContractABIError
 from multibaas_sdk.models.contract_abi_event import ContractABIEvent
 from multibaas_sdk.models.contract_abi_method import ContractABIMethod
-from multibaas_sdk.models.contract_abi_method1 import ContractABIMethod1
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -31,7 +30,7 @@ class ContractABI(BaseModel):
     """
     The contract ABI.
     """ # noqa: E501
-    constructor: Optional[ContractABIMethod1]
+    constructor: Optional[ContractABIMethod]
     methods: Dict[str, Optional[ContractABIMethod]]
     events: Dict[str, ContractABIEvent]
     errors: Optional[Dict[str, ContractABIError]] = None
@@ -135,7 +134,7 @@ class ContractABI(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "constructor": ContractABIMethod1.from_dict(obj["constructor"]) if obj.get("constructor") is not None else None,
+            "constructor": ContractABIMethod.from_dict(obj["constructor"]) if obj.get("constructor") is not None else None,
             "methods": dict(
                 (_k, ContractABIMethod.from_dict(_v))
                 for _k, _v in obj["methods"].items()

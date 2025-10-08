@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **kind** | **str** | The response object type (discriminator). | 
 **output** | **object** | The function call output. | 
-**input** | **List[object]** | The function call inputs. | 
 
 ## Example
 

@@ -5,7 +5,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -15,7 +15,7 @@
 """  # noqa: E501
 
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 # Define package exports
 __all__ = [
@@ -46,6 +46,7 @@ __all__ = [
     "Address",
     "AddressAlias",
     "AuditLog",
+    "AuthorizationExtraInfo",
     "AzureAccount",
     "AzureHardwareWallet",
     "AzureWallet",
@@ -70,7 +71,6 @@ __all__ = [
     "ContractABIEvent",
     "ContractABIEventArgument",
     "ContractABIMethod",
-    "ContractABIMethod1",
     "ContractABIMethodArgument",
     "ContractABIType",
     "ContractABITypeConversion",
@@ -156,7 +156,6 @@ __all__ = [
     "ListWebhooks200Response",
     "Log",
     "MethodArg",
-    "MethodCallPreviewResponse",
     "MethodCallResponse",
     "MethodTypeConversionOptions",
     "Plan",
@@ -164,7 +163,6 @@ __all__ = [
     "PlanLimit",
     "PostMethodArgs",
     "PostMethodResponse",
-    "PreviewArgs",
     "Role",
     "SavedEventQuery",
     "SetAddress201Response",
@@ -227,6 +225,7 @@ from multibaas_sdk.models.add_key import AddKey as AddKey
 from multibaas_sdk.models.address import Address as Address
 from multibaas_sdk.models.address_alias import AddressAlias as AddressAlias
 from multibaas_sdk.models.audit_log import AuditLog as AuditLog
+from multibaas_sdk.models.authorization_extra_info import AuthorizationExtraInfo as AuthorizationExtraInfo
 from multibaas_sdk.models.azure_account import AzureAccount as AzureAccount
 from multibaas_sdk.models.azure_hardware_wallet import AzureHardwareWallet as AzureHardwareWallet
 from multibaas_sdk.models.azure_wallet import AzureWallet as AzureWallet
@@ -251,7 +250,6 @@ from multibaas_sdk.models.contract_abi_error_argument import ContractABIErrorArg
 from multibaas_sdk.models.contract_abi_event import ContractABIEvent as ContractABIEvent
 from multibaas_sdk.models.contract_abi_event_argument import ContractABIEventArgument as ContractABIEventArgument
 from multibaas_sdk.models.contract_abi_method import ContractABIMethod as ContractABIMethod
-from multibaas_sdk.models.contract_abi_method1 import ContractABIMethod1 as ContractABIMethod1
 from multibaas_sdk.models.contract_abi_method_argument import ContractABIMethodArgument as ContractABIMethodArgument
 from multibaas_sdk.models.contract_abi_type import ContractABIType as ContractABIType
 from multibaas_sdk.models.contract_abi_type_conversion import ContractABITypeConversion as ContractABITypeConversion
@@ -337,7 +335,6 @@ from multibaas_sdk.models.list_webhook_events200_response import ListWebhookEven
 from multibaas_sdk.models.list_webhooks200_response import ListWebhooks200Response as ListWebhooks200Response
 from multibaas_sdk.models.log import Log as Log
 from multibaas_sdk.models.method_arg import MethodArg as MethodArg
-from multibaas_sdk.models.method_call_preview_response import MethodCallPreviewResponse as MethodCallPreviewResponse
 from multibaas_sdk.models.method_call_response import MethodCallResponse as MethodCallResponse
 from multibaas_sdk.models.method_type_conversion_options import MethodTypeConversionOptions as MethodTypeConversionOptions
 from multibaas_sdk.models.plan import Plan as Plan
@@ -345,7 +342,6 @@ from multibaas_sdk.models.plan_feature import PlanFeature as PlanFeature
 from multibaas_sdk.models.plan_limit import PlanLimit as PlanLimit
 from multibaas_sdk.models.post_method_args import PostMethodArgs as PostMethodArgs
 from multibaas_sdk.models.post_method_response import PostMethodResponse as PostMethodResponse
-from multibaas_sdk.models.preview_args import PreviewArgs as PreviewArgs
 from multibaas_sdk.models.role import Role as Role
 from multibaas_sdk.models.saved_event_query import SavedEventQuery as SavedEventQuery
 from multibaas_sdk.models.set_address201_response import SetAddress201Response as SetAddress201Response

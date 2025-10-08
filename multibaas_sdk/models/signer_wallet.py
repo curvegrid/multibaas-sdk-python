@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -37,8 +37,8 @@ class SignerWallet(BaseModel):
     @field_validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in set(['web3', 'cloud', 'multisig', 'safe']):
-            raise ValueError("must be one of enum values ('web3', 'cloud', 'multisig', 'safe')")
+        if value not in set(['web3', 'cloud', 'safe']):
+            raise ValueError("must be one of enum values ('web3', 'cloud', 'safe')")
         return value
 
     @field_validator('wallet')

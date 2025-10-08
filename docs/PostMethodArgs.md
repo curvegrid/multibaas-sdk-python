@@ -24,7 +24,6 @@ Name | Type | Description | Notes
 **timestamp** | **str** | Call the function at a specific timestamp. Only available for read functions calls and if the &#x60;historical_blocks_feature&#x60; is enabled (see the plan endpoint). Mutually exclusive with the &#x60;blockNumber&#x60; parameter. | [optional] 
 **block_number** | **str** | Call the function at a specific block. Only available for read functions calls and if the &#x60;historical_blocks_feature&#x60; is enabled (see the plan endpoint). Mutually exclusive with the &#x60;timestamp&#x60; parameter. | [optional] 
 **contract_override** | **bool** | If set to true the given address and contract don&#39;t need to be linked for the function to be called. | [optional] 
-**preview** | [**PreviewArgs**](PreviewArgs.md) |  | [optional] 
 
 ## Example
 

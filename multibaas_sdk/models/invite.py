@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -28,10 +28,10 @@ class Invite(BaseModel):
     """
     A user invitation to MultiBaas.
     """ # noqa: E501
-    id: StrictStr = Field(description="The invite ID.")
     email: StrictStr = Field(description="The invitee's email address.")
     created_at: datetime = Field(description="The time the invite was created.", alias="createdAt")
-    __properties: ClassVar[List[str]] = ["id", "email", "createdAt"]
+    expires_at: datetime = Field(description="The time the invite expires.", alias="expiresAt")
+    __properties: ClassVar[List[str]] = ["email", "createdAt", "expiresAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,9 +84,9 @@ class Invite(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
             "email": obj.get("email"),
-            "createdAt": obj.get("createdAt")
+            "createdAt": obj.get("createdAt"),
+            "expiresAt": obj.get("expiresAt")
         })
         return _obj
 

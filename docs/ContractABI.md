@@ -6,7 +6,7 @@ The contract ABI.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**constructor** | [**ContractABIMethod1**](ContractABIMethod1.md) |  | 
+**constructor** | [**ContractABIMethod**](ContractABIMethod.md) |  | 
 **methods** | [**Dict[str, ContractABIMethod]**](ContractABIMethod.md) |  | 
 **events** | [**Dict[str, ContractABIEvent]**](ContractABIEvent.md) |  | 
 **errors** | [**Dict[str, ContractABIError]**](ContractABIError.md) |  | [optional] 

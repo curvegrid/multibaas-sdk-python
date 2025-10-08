@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -21,6 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from multibaas_sdk.models.authorization_extra_info import AuthorizationExtraInfo
 from multibaas_sdk.models.contract_information import ContractInformation
 from multibaas_sdk.models.contract_method_information import ContractMethodInformation
 from multibaas_sdk.models.transaction import Transaction
@@ -38,7 +39,8 @@ class TransactionData(BaseModel):
     block_number: Optional[StrictStr] = Field(default=None, description="The transaction block number.", alias="blockNumber")
     contract: Optional[ContractInformation] = None
     method: Optional[ContractMethodInformation] = None
-    __properties: ClassVar[List[str]] = ["data", "isPending", "from", "blockHash", "blockNumber", "contract", "method"]
+    authorization_extra_info: Optional[List[AuthorizationExtraInfo]] = Field(default=None, alias="authorizationExtraInfo")
+    __properties: ClassVar[List[str]] = ["data", "isPending", "from", "blockHash", "blockNumber", "contract", "method", "authorizationExtraInfo"]
 
     @field_validator('var_from')
     def var_from_validate_regular_expression(cls, value):
@@ -105,6 +107,18 @@ class TransactionData(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of method
         if self.method:
             _dict['method'] = self.method.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in authorization_extra_info (list)
+        _items = []
+        if self.authorization_extra_info:
+            for _item_authorization_extra_info in self.authorization_extra_info:
+                if _item_authorization_extra_info:
+                    _items.append(_item_authorization_extra_info.to_dict())
+            _dict['authorizationExtraInfo'] = _items
+        # set to None if authorization_extra_info (nullable) is None
+        # and model_fields_set contains the field
+        if self.authorization_extra_info is None and "authorization_extra_info" in self.model_fields_set:
+            _dict['authorizationExtraInfo'] = None
+
         return _dict
 
     @classmethod
@@ -123,7 +137,8 @@ class TransactionData(BaseModel):
             "blockHash": obj.get("blockHash"),
             "blockNumber": obj.get("blockNumber"),
             "contract": ContractInformation.from_dict(obj["contract"]) if obj.get("contract") is not None else None,
-            "method": ContractMethodInformation.from_dict(obj["method"]) if obj.get("method") is not None else None
+            "method": ContractMethodInformation.from_dict(obj["method"]) if obj.get("method") is not None else None,
+            "authorizationExtraInfo": [AuthorizationExtraInfo.from_dict(_item) for _item in obj["authorizationExtraInfo"]] if obj.get("authorizationExtraInfo") is not None else None
         })
         return _obj
 

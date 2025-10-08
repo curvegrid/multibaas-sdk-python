@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **block_number** | **str** | The transaction block number. | [optional] 
 **contract** | [**ContractInformation**](ContractInformation.md) |  | [optional] 
 **method** | [**ContractMethodInformation**](ContractMethodInformation.md) |  | [optional] 
+**authorization_extra_info** | [**List[AuthorizationExtraInfo]**](AuthorizationExtraInfo.md) |  | [optional] 
 
 ## Example
 

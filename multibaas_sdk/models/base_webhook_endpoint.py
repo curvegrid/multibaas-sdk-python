@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -37,8 +37,8 @@ class BaseWebhookEndpoint(BaseModel):
     @field_validator('label')
     def label_validate_regular_expression(cls, value):
         """Validates the regular expression"""
-        if not re.match(r"^[a-z0-9_-]+$", value):
-            raise ValueError(r"must validate the regular expression /^[a-z0-9_-]+$/")
+        if not re.match(r"^(?:[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$", value):
+            raise ValueError(r"must validate the regular expression /^(?:[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$/")
         return value
 
     model_config = ConfigDict(

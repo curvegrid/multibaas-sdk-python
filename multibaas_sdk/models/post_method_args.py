@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -21,7 +21,6 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from multibaas_sdk.models.preview_args import PreviewArgs
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -47,8 +46,7 @@ class PostMethodArgs(BaseModel):
     timestamp: Optional[StrictStr] = Field(default=None, description="Call the function at a specific timestamp. Only available for read functions calls and if the `historical_blocks_feature` is enabled (see the plan endpoint). Mutually exclusive with the `blockNumber` parameter.")
     block_number: Optional[StrictStr] = Field(default=None, description="Call the function at a specific block. Only available for read functions calls and if the `historical_blocks_feature` is enabled (see the plan endpoint). Mutually exclusive with the `timestamp` parameter.", alias="blockNumber")
     contract_override: Optional[StrictBool] = Field(default=None, description="If set to true the given address and contract don't need to be linked for the function to be called.", alias="contractOverride")
-    preview: Optional[PreviewArgs] = None
-    __properties: ClassVar[List[str]] = ["signature", "args", "from", "nonce", "gasPrice", "gasFeeCap", "gasTipCap", "gas", "to", "value", "signAndSubmit", "nonceManagement", "preEIP1559", "signer", "formatInts", "timestamp", "blockNumber", "contractOverride", "preview"]
+    __properties: ClassVar[List[str]] = ["signature", "args", "from", "nonce", "gasPrice", "gasFeeCap", "gasTipCap", "gas", "to", "value", "signAndSubmit", "nonceManagement", "preEIP1559", "signer", "formatInts", "timestamp", "blockNumber", "contractOverride"]
 
     @field_validator('var_from')
     def var_from_validate_regular_expression(cls, value):
@@ -56,8 +54,8 @@ class PostMethodArgs(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$", value):
-            raise ValueError(r"must validate the regular expression /^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$/")
+        if not re.match(r"^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$", value):
+            raise ValueError(r"must validate the regular expression /^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$/")
         return value
 
     @field_validator('to')
@@ -66,8 +64,8 @@ class PostMethodArgs(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$", value):
-            raise ValueError(r"must validate the regular expression /^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$/")
+        if not re.match(r"^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$", value):
+            raise ValueError(r"must validate the regular expression /^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$/")
         return value
 
     @field_validator('signer')
@@ -76,8 +74,8 @@ class PostMethodArgs(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$", value):
-            raise ValueError(r"must validate the regular expression /^(0[xX][a-fA-F0-9]{40}|[a-z0-9_-]+)$/")
+        if not re.match(r"^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$", value):
+            raise ValueError(r"must validate the regular expression /^(:?0[xX][a-fA-F0-9]{40}|[a-z1-9_-][a-z0-9_-]*|0(?:[a-wyz0-9_-][a-z0-9_-]*)?)$/")
         return value
 
     model_config = ConfigDict(
@@ -119,9 +117,6 @@ class PostMethodArgs(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of preview
-        if self.preview:
-            _dict['preview'] = self.preview.to_dict()
         return _dict
 
     @classmethod
@@ -151,8 +146,7 @@ class PostMethodArgs(BaseModel):
             "formatInts": obj.get("formatInts") if obj.get("formatInts") is not None else 'auto',
             "timestamp": obj.get("timestamp"),
             "blockNumber": obj.get("blockNumber"),
-            "contractOverride": obj.get("contractOverride"),
-            "preview": PreviewArgs.from_dict(obj["preview"]) if obj.get("preview") is not None else None
+            "contractOverride": obj.get("contractOverride")
         })
         return _obj
 

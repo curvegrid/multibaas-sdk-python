@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -18,7 +18,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,6 +30,13 @@ class PlanFeature(BaseModel):
     name: StrictStr = Field(description="The name of the feature.")
     enabled: StrictBool = Field(description="Whether the feature is enabled.")
     __properties: ClassVar[List[str]] = ["name", "enabled"]
+
+    @field_validator('name')
+    def name_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['event_logging_feature', 'event_monitor_feature', 'event_queries_feature', 'faucet_feature', 'historical_blocks_feature', 'hsm_feature']):
+            raise ValueError("must be one of enum values ('event_logging_feature', 'event_monitor_feature', 'event_queries_feature', 'faucet_feature', 'historical_blocks_feature', 'hsm_feature')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,

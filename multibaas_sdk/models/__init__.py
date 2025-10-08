@@ -4,7 +4,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -24,6 +24,7 @@ from multibaas_sdk.models.add_key import AddKey
 from multibaas_sdk.models.address import Address
 from multibaas_sdk.models.address_alias import AddressAlias
 from multibaas_sdk.models.audit_log import AuditLog
+from multibaas_sdk.models.authorization_extra_info import AuthorizationExtraInfo
 from multibaas_sdk.models.azure_account import AzureAccount
 from multibaas_sdk.models.azure_hardware_wallet import AzureHardwareWallet
 from multibaas_sdk.models.azure_wallet import AzureWallet
@@ -48,7 +49,6 @@ from multibaas_sdk.models.contract_abi_error_argument import ContractABIErrorArg
 from multibaas_sdk.models.contract_abi_event import ContractABIEvent
 from multibaas_sdk.models.contract_abi_event_argument import ContractABIEventArgument
 from multibaas_sdk.models.contract_abi_method import ContractABIMethod
-from multibaas_sdk.models.contract_abi_method1 import ContractABIMethod1
 from multibaas_sdk.models.contract_abi_method_argument import ContractABIMethodArgument
 from multibaas_sdk.models.contract_abi_type import ContractABIType
 from multibaas_sdk.models.contract_abi_type_conversion import ContractABITypeConversion
@@ -134,7 +134,6 @@ from multibaas_sdk.models.list_webhook_events200_response import ListWebhookEven
 from multibaas_sdk.models.list_webhooks200_response import ListWebhooks200Response
 from multibaas_sdk.models.log import Log
 from multibaas_sdk.models.method_arg import MethodArg
-from multibaas_sdk.models.method_call_preview_response import MethodCallPreviewResponse
 from multibaas_sdk.models.method_call_response import MethodCallResponse
 from multibaas_sdk.models.method_type_conversion_options import MethodTypeConversionOptions
 from multibaas_sdk.models.plan import Plan
@@ -142,7 +141,6 @@ from multibaas_sdk.models.plan_feature import PlanFeature
 from multibaas_sdk.models.plan_limit import PlanLimit
 from multibaas_sdk.models.post_method_args import PostMethodArgs
 from multibaas_sdk.models.post_method_response import PostMethodResponse
-from multibaas_sdk.models.preview_args import PreviewArgs
 from multibaas_sdk.models.role import Role
 from multibaas_sdk.models.saved_event_query import SavedEventQuery
 from multibaas_sdk.models.set_address201_response import SetAddress201Response

@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -18,19 +18,27 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import ConfigDict, Field
-from typing import Any, ClassVar, Dict, List, Optional
-from multibaas_sdk.models.post_method_response import PostMethodResponse
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List
+from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
-class MethodCallPreviewResponse(PostMethodResponse):
+class AuthorizationExtraInfo(BaseModel):
     """
-    The result of a preview function arguments call.
+    Additional information about any EIP-7702 authorizations.
     """ # noqa: E501
-    input: List[Any] = Field(description="The function call inputs.")
-    output: Optional[Any] = Field(description="The function call output.")
-    __properties: ClassVar[List[str]] = ["kind", "input", "output"]
+    authority: Annotated[str, Field(strict=True)] = Field(description="An ethereum address.")
+    format_valid: StrictBool = Field(description="Indicates whether the format of the authorization is valid.", alias="formatValid")
+    notes: StrictStr = Field(description="Additional notes about the validity of the authorization.")
+    __properties: ClassVar[List[str]] = ["authority", "formatValid", "notes"]
+
+    @field_validator('authority')
+    def authority_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^0[xX][a-fA-F0-9]{40}$", value):
+            raise ValueError(r"must validate the regular expression /^0[xX][a-fA-F0-9]{40}$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +58,7 @@ class MethodCallPreviewResponse(PostMethodResponse):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of MethodCallPreviewResponse from a JSON string"""
+        """Create an instance of AuthorizationExtraInfo from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,16 +79,11 @@ class MethodCallPreviewResponse(PostMethodResponse):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if output (nullable) is None
-        # and model_fields_set contains the field
-        if self.output is None and "output" in self.model_fields_set:
-            _dict['output'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of MethodCallPreviewResponse from a dict"""
+        """Create an instance of AuthorizationExtraInfo from a dict"""
         if obj is None:
             return None
 
@@ -88,9 +91,9 @@ class MethodCallPreviewResponse(PostMethodResponse):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "kind": obj.get("kind"),
-            "input": obj.get("input"),
-            "output": obj.get("output")
+            "authority": obj.get("authority"),
+            "formatValid": obj.get("formatValid"),
+            "notes": obj.get("notes")
         })
         return _obj
 

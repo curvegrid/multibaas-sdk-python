@@ -3,7 +3,7 @@
 """
     MultiBaas API
 
-    MultiBaas's REST APIv0.
+    MultiBaas API provides a unified interface for interacting with blockchain networks. It enables applications to deploy and manage smart contracts, call contract methods, and query blockchain data through standard REST endpoints. The API also includes features for authentication, role-based access control, and integration with existing systems, allowing developers to build blockchain-powered applications without needing deep protocol-level expertise.
 
     The version of the OpenAPI document: 0.0
     Contact: contact@curvegrid.com
@@ -26,7 +26,6 @@ from typing_extensions import Self
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from multibaas_sdk.models.method_call_preview_response import MethodCallPreviewResponse
     from multibaas_sdk.models.method_call_response import MethodCallResponse
     from multibaas_sdk.models.transaction_to_sign_response import TransactionToSignResponse
 
@@ -49,7 +48,7 @@ class PostMethodResponse(BaseModel):
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'MethodCallPreviewResponse': 'MethodCallPreviewResponse','MethodCallResponse': 'MethodCallResponse','TransactionToSignResponse': 'TransactionToSignResponse'
+        'MethodCallResponse': 'MethodCallResponse','TransactionToSignResponse': 'TransactionToSignResponse'
     }
 
     @classmethod
@@ -71,7 +70,7 @@ class PostMethodResponse(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse]]:
+    def from_json(cls, json_str: str) -> Optional[Union[MethodCallResponse, TransactionToSignResponse]]:
         """Create an instance of PostMethodResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -96,12 +95,10 @@ class PostMethodResponse(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[MethodCallPreviewResponse, MethodCallResponse, TransactionToSignResponse]]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[MethodCallResponse, TransactionToSignResponse]]:
         """Create an instance of PostMethodResponse from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type ==  'MethodCallPreviewResponse':
-            return import_module("multibaas_sdk.models.method_call_preview_response").MethodCallPreviewResponse.from_dict(obj)
         if object_type ==  'MethodCallResponse':
             return import_module("multibaas_sdk.models.method_call_response").MethodCallResponse.from_dict(obj)
         if object_type ==  'TransactionToSignResponse':
